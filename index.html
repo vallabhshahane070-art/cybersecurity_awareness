@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Awareness - IIIT Dharwad</title>
+    <style>
+        :root {
+            --bg-color: #05050a;
+            --accent-cyan: #00f0ff;
+            --accent-green: #00ff66;
+            --alert-red: #ff003c;
+            --text-light: #e0e0e0;
+            --glass-bg: rgba(20, 20, 30, 0.6);
+            --glass-border: rgba(0, 240, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* --- 1. HERO VIDEO SECTION --- */
+        .hero-section {
+            height: 180vh; 
+            position: relative;
+            background: #000;
+        }
+
+        .video-wrapper {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%); /* Keeps it perfectly centered */
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            transition: transform 0.1s ease-out, width 0.1s ease-out, height 0.1s ease-out, border-radius 0.1s ease-out;
+            overflow: hidden;
+        }
+
+        #bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+
+        .hero-content {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            text-align: center;
+            pointer-events: none;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 4rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        /* --- 2. STATS SECTION --- */
+        .stats-section {
+            position: relative;
+            z-index: 10;
+            background: linear-gradient(to bottom, transparent, var(--bg-color) 10%);
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            color: var(--alert-red);
+            font-family: 'Space Mono', monospace;
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(255, 0, 60, 0.5);
+            margin: 20px 0;
+        }
+
+        /* --- 3. PHISHING SIMULATOR (INDIAN CONTEXT) --- */
+        .simulator-section {
+            position: relative;
+            z-index: 10;
+            background: var(--bg-color);
+            padding: 60px 20px 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .email-card {
+            background: #ffffff;
+            color: #333;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            position: relative;
+            cursor: crosshair;
+        }
+
+        .email-header {
+            background: #f1f3f4;
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sender-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sender-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .sender-email {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 2px;
+        }
+        
+        .red-flag {
+            position: relative;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .red-flag:hover {
+            background: rgba(255, 0, 0, 0.1);
+            outline: 2px dashed red;
+            cursor: pointer;
+        }
+
+        .email-body {
+            padding: 25px;
+        }
+
+        .gov-logo-fake {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #ff9933;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #138808;
+            padding-bottom: 10px;
+        }
+
+        .trap-button {
+            display: block;
+            width: 100%;
+            background: #0056b3;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 6px;
+            margin-top: 25px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .trap-button:hover {
+            background: #004494;
+        }
+
+        /* --- 4. TERMINAL HACK SCREEN --- */
+        #terminal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000;
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .terminal-text {
+            color: #0f0;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .hacked-screen {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            color: var(--alert-red);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            z-index: 10000;
+        }
+
+        .hacked-title {
+            font-size: 6rem;
+            font-weight: bold;
+            animation: glitch 0.15s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-5px, 5px) }
+            40% { transform: translate(-5px, -5px) }
+            60% { transform: translate(5px, 5px) }
+            80% { transform: translate(5px, -5px) }
+            100% { transform: translate(0) }
+        }
+
+        .reset-btn {
+            margin-top: 40px;
+            padding: 15px 30px;
+            background: transparent;
+            border: 2px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            font-family: 'Space Mono', monospace;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            text-transform: uppercase;
+        }
+
+        .reset-btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+        }
+        
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .stat-number { font-size: 2.5rem; }
+            .hacked-title { font-size: 2.5rem; }
+            .hero-content p { font-size: 0.9rem; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <div class="hero-section">
+        <div class="video-wrapper" id="video-wrapper">
+            <video id="bg-video" src="Digital_Mirage_Cybersecurity_Awareness-2 (1).mp4" autoplay loop muted playsinline></video>
+        </div>
+        <div class="hero-content">
+            <h1>Don't Be The Next Target</h1>
+            <p>Scroll down to initiate security scan</p>
+        </div>
+    </div>
+
+    <!-- STATS SECTION -->
+    <div class="stats-section">
+        <div class="stat-card">
+            <h2>Estimated Cybercrime Losses (2025 Projections)</h2>
+            <div class="stat-number">$<span id="counter-total">0</span> Billion</div>
+            <p>Business Email Compromise (BEC) and Phishing continue to be the leading causes of financial loss.</p>
+        </div>
+    </div>
+
+    <!-- PHISHING SIMULATION -->
+    <div class="simulator-section">
+        <h2 style="margin-bottom: 10px; font-family: 'Space Mono'; color: var(--accent-cyan);">SECURITY SCANNER ACTIVE</h2>
+        <p style="margin-bottom: 30px; text-align: center; max-width: 600px;">
+            Hover over the email below. Can you spot the red flags? 
+            Clicking the wrong link will compromise your system.
+        </p>
+
+        <div class="email-card">
+            <div class="email-header">
+                <div class="sender-info">
+                    <span class="sender-name">National Scholarship Portal [URGENT]</span>
+                    <span class="sender-email red-flag" onclick="flagFound(1)">no-reply@nsp-gov-update.in</span>
+                </div>
+            </div>
+            <div class="email-body">
+                <div class="gov-logo-fake">NSP GOVT OF INDIA</div>
+                <p>Dear Student,</p><br>
+                <p>Your Aadhaar e-KYC verification for the 2025-2026 scholarship disbursement has failed.</p><br>
+                <p>To prevent your scholarship funds from being permanently frozen, you must verify your identity immediately.</p>
+                
+                <div class="trap-button" onclick="triggerHack()">VERIFY AADHAAR KYC NOW</div>
+                
+                <br>
+                <p style="font-size: 0.8rem; color: #777;">
+                    Please do not reply to this email. 
+                    <span class="red-flag" onclick="flagFound(2)">© 2025 Sch0larship Dept.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- HACKING TERMINAL OVERLAY -->
+    <div id="terminal-overlay">
+        <div class="terminal-text" id="terminal-text"></div>
+    </div>
+
+    <div class="hacked-screen" id="hacked-screen">
+        <div class="hacked-title">SYSTEM HACKED</div>
+        <p style="font-family: 'Space Mono'; font-size: 1.2rem; margin-top: 20px; max-width: 800px; padding: 20px;">
+            Just kidding. But this is exactly what happens when you click a phishing link. <br><br>
+            Scammers use urgency (like freezing funds) and fake official branding to make you panic. Always verify the sender's actual address before clicking.
+        </p>
+        <button class="reset-btn" onclick="resetSystem()">Reboot System</button>
+    </div>
+
+    <script>
+        // 1. SCROLL VIDEO SHRINK EFFECT (Perfect Centering Maintained)
+        window.addEventListener('scroll', () => {
+            const wrapper = document.getElementById('video-wrapper');
+            const scrollY = window.scrollY;
+            const isMobile = window.innerWidth <= 768;
+            
+            if (scrollY > 100) {
+                let progress = Math.min((scrollY - 100) / 300, 1);
+                let currentWidth = 100 - (progress * (isMobile ? 10 : 20)); 
+                let currentHeight = 100 - (progress * (isMobile ? 60 : 40)); 
+                
+                wrapper.style.width = currentWidth + 'vw';
+                wrapper.style.height = currentHeight + 'vh';
+                wrapper.style.top = (progress * 20) + 'px';
+                wrapper.style.borderRadius = '20px';
+                wrapper.style.border = '2px solid rgba(0, 240, 255, 0.3)';
+                wrapper.style.boxShadow = '0 20px 50px rgba(0,0,0,0.8)';
+            } else {
+                wrapper.style.width = '100vw';
+                wrapper.style.height = '100vh';
+                wrapper.style.top = '0';
+                wrapper.style.borderRadius = '0';
+                wrapper.style.border = 'none';
+                wrapper.style.boxShadow = 'none';
+            }
+        });
+
+        // 2. NUMBER COUNTER ANIMATION
+        let animated = false;
+        window.addEventListener('scroll', () => {
+            const statsSection = document.querySelector('.stats-section');
+            if (window.scrollY + window.innerHeight > statsSection.offsetTop && !animated) {
+                animated = true;
+                animateValue("counter-total", 0, 20.9, 2000);
+            }
+        });
+
+        function animateValue(id, start, end, duration) {
+            let obj = document.getElementById(id);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = (progress * (end - start)).toFixed(1);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // 3. PHISHING INTERACTION
+        function flagFound(num) {
+            alert("Good catch! You spotted Red Flag #" + num + " with the scanner. But beware of the main button...");
+        }
+
+        // 4. THE TERMINAL TRAP
+        const hackLines = [
+            "> INITIALIZING PAYLOAD...",
+            "> BYPASSING FIREWALL... SUCCESS",
+            "> DOWNLOADING RANSOMWARE.EXE [██████████] 100%",
+            "> EXTRACTING SAVED PASSWORDS...",
+            "> ENCRYPTING HARD DRIVE...",
+            "> ACCESSING WEBCAM...",
+            "> UPLOADING BANKING DATA TO REMOTE SERVER...",
+            "> OVERWRITING BOOT SECTOR...",
+            "> FATAL ERROR."
+        ];
+
+        function triggerHack() {
+            const terminal = document.getElementById('terminal-overlay');
+            const terminalText = document.getElementById('terminal-text');
+            const hackedScreen = document.getElementById('hacked-screen');
+            const bgVideo = document.getElementById('bg-video');
+
+            terminal.style.display = 'flex';
+            terminalText.innerHTML = "";
+            bgVideo.pause();
+
+            let delay = 0;
+            hackLines.forEach((line) => {
+                setTimeout(() => {
+                    terminalText.innerHTML += line + "<br>";
+                }, delay);
+                delay += 250; 
+            });
+
+            setTimeout(() => {
+                terminal.style.display = 'none';
+                hackedScreen.style.display = 'flex';
+            }, delay + 400);
+        }
+
+        function resetSystem() {
+            document.getElementById('hacked-screen').style.display = 'none';
+            document.getElementById('terminal-overlay').style.display = 'none';
+            document.getElementById('terminal-text').innerHTML = "";
+            document.getElementById('bg-video').play();
+            window.scrollTo({ top: document.querySelector('.simulator-section').offsetTop, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
